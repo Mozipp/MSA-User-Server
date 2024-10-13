@@ -1,7 +1,7 @@
 package com.mozipp.server.domain.model.entity;
 
 import com.mozipp.server.domain.region.entity.PreferRegion;
-import com.mozipp.server.domain.user.ViolationStatus;
+import com.mozipp.server.domain.user.entity.ViolationStatus;
 import com.mozipp.server.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

@@ -1,8 +1,5 @@
 package com.mozipp.server.domain.user.entity;
 
-import com.mozipp.server.domain.BaseTimeEntity;
-import com.mozipp.server.domain.user.Gender;
-import com.mozipp.server.domain.user.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.mozipp.server.domain.user;
+package com.mozipp.server.domain.user.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

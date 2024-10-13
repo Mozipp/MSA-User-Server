@@ -1,6 +1,6 @@
 package com.mozipp.server.domain.petshop.entity;
 
-import com.mozipp.server.domain.BaseTimeEntity;
+import com.mozipp.server.domain.user.entity.BaseTimeEntity;
 import com.mozipp.server.domain.designer.entity.Designer;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
