@@ -18,9 +18,8 @@ public class DesignerRegisterController {
 
     // 디자이너 회원가입
     @PostMapping("/sign-up")
-    public BaseResponse signUp(@RequestBody DesignerSignUpDto designerSignUpDto){
-        return null;
+    public BaseResponse<Object> signUp(@RequestBody DesignerSignUpDto request) {
+        designerRegisterService.signUp(request);
+        return BaseResponse.success();
     }
-
-
 }

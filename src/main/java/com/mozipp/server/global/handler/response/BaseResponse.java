@@ -1,5 +1,6 @@
 package com.mozipp.server.global.handler.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +13,7 @@ public class BaseResponse<T> {
     private final Boolean isSuccess;
     private final int code;
     private final String message;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private final T result;
 
     private BaseResponse(BaseResponseStatus status) {
