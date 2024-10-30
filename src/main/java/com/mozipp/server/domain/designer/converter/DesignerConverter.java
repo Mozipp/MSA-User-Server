@@ -5,7 +5,6 @@ import com.mozipp.server.domain.user.entity.Role;
 import com.mozipp.server.domain.user.entity.User;
 
 public class DesignerConverter {
-
     public static User toUserEntity(DesignerSignUpDto designerSignUpDto, String encodedPassword, Role role) {
         return User.builder()
                 .username(designerSignUpDto.getUsername())

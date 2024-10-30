@@ -25,7 +25,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                //stateless 상태로 관리하기에 csrf 보안 비활성화
+                //csrf 보안 비활성화
                 .csrf(AbstractHttpConfigurer::disable)
                 //Form 로그인 방식 비활성화
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -33,7 +33,7 @@ public class WebSecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 //경로별 인가 작업
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/designer/sign-up", "/error", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/api/designer/sign-up", "/api/model/sign-up", "/error", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 //세션을 stateless 상태로 관리
