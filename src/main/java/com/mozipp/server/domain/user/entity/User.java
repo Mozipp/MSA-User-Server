@@ -27,18 +27,12 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private String age;
-
     private String username;
 
     private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private ViolationStatus violationStatus = ViolationStatus.NORMAL;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

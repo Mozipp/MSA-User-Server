@@ -1,9 +1,10 @@
 package com.mozipp.server.domain.petshop.entity;
 
-import com.mozipp.server.domain.user.entity.BaseTimeEntity;
 import com.mozipp.server.domain.designer.entity.Designer;
+import com.mozipp.server.domain.user.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,4 +29,11 @@ public class PetShop extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "petShop")
     private List<Designer> designers = new ArrayList<>();
+
+    @Builder
+    public PetShop(String petShopName, String address, String addressDetail) {
+        this.petShopName = petShopName;
+        this.address = address;
+        this.addressDetail = addressDetail;
+    }
 }

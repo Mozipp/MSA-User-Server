@@ -11,7 +11,6 @@ public class ModelConverter {
                 .password(encodedPassword)
                 .name(modelSignUpDto.getName())
                 .gender(modelSignUpDto.getGender())
-                .age(modelSignUpDto.getAge())
                 .role(role)
                 .build();
     }

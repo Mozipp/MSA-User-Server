@@ -22,6 +22,6 @@ public class ModelRegisterService {
             throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
         }
         String encodedPassword = passwordEncoder.encode(request.getPassword());
-        userRepository.save(ModelConverter.toUserEntity(request, encodedPassword, Role.DESIGNER));
+        userRepository.save(ModelConverter.toUserEntity(request, encodedPassword, Role.MODEL));
     }
 }
