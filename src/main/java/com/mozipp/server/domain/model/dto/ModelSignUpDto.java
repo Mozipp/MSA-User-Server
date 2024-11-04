@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class ModelSignUpDto {
     private String name;
-    private String age;
     private Gender gender;
     private String username;
     private String password;

@@ -19,8 +19,6 @@ public class Designer extends User {
 
     private String licenseImageUrl;
 
-    private Boolean isVerified;
-
     private String career;
 
     @ManyToOne(fetch = FetchType.LAZY)

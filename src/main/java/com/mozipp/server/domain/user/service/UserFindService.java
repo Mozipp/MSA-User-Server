@@ -12,11 +12,6 @@ public class UserFindService {
 
     private final UserRepository userRepository;
 
-    private User findUserById(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(null);
-    }
-
     public User findByUserDetails(UserDetails userDetails) {
         return userRepository.findUserByUsername(userDetails.getUsername());
     }

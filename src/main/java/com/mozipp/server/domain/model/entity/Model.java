@@ -13,7 +13,11 @@ import lombok.NoArgsConstructor;
 @PrimaryKeyJoinColumn(name = "model_id")
 public class Model extends User {
 
-    private String modelImageUrl;
+    private String petName;
 
-    private String accountNumber;
+    private String petAge;
+
+    private String breed;
+
+    private String petImageUrl;
 }
