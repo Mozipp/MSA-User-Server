@@ -52,6 +52,7 @@ public class DesignerRegisterService {
         petShopRepository.save(petShop);
     }
 
+    @Transactional
     public void registerLicenseImage(DesignerLicenseImageDto request, User user) {
         Designer designer = (Designer) user;
 
