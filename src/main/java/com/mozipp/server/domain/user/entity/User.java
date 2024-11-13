@@ -36,8 +36,6 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private Boolean isVerified;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();

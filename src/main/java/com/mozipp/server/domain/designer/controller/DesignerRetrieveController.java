@@ -25,7 +25,7 @@ public class DesignerRetrieveController {
     @GetMapping("/profile")
     public BaseResponse<DesignerProfileResponse> getDesignerProfile(@AuthenticationPrincipal UserDetails userDetails) {
         User user = userFindService.findByUserDetails(userDetails);
-        DesignerProfileResponse designerProfileResponse = DesignerConverter.toDeisgnerProfileResponse(user);
+        DesignerProfileResponse designerProfileResponse = DesignerConverter.toDesignerProfileResponse(user);
         return BaseResponse.success(designerProfileResponse);
     }
 }

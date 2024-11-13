@@ -1,9 +1,11 @@
 package com.mozipp.server.domain.designer.converter;
 
+import com.mozipp.server.domain.designer.dto.DesignerProfileRequest;
 import com.mozipp.server.domain.designer.dto.DesignerProfileResponse;
 import com.mozipp.server.domain.designer.dto.DesignerSignUpDto;
 import com.mozipp.server.domain.designer.entity.Designer;
 import com.mozipp.server.domain.designer.dto.PetShopProfileDto;
+import com.mozipp.server.domain.petshop.entity.PetShop;
 import com.mozipp.server.domain.user.entity.Role;
 import com.mozipp.server.domain.user.entity.User;
 
@@ -18,7 +20,7 @@ public class DesignerConverter {
                 .build();
     }
 
-    public static DesignerProfileResponse toDeisgnerProfileResponse(User user) {
+    public static DesignerProfileResponse toDesignerProfileResponse(User user) {
         Designer designer = (Designer) user;
         PetShopProfileDto petShopProfileDto = PetShopProfileDto.builder()
                 .petShopName(designer.getPetShop().getPetShopName())
@@ -32,6 +34,14 @@ public class DesignerConverter {
                 .isVerified(designer.getIsVerified())
                 .petShopProfileDto(petShopProfileDto)
                 .petGroomingImageUrl(designer.getPetGroomingImages())
+                .build();
+    }
+
+    public static PetShop toPetShop(DesignerProfileRequest request){
+        return PetShop.builder()
+                .petShopName(request.getPetShopName())
+                .address(request.getAddress())
+                .addressDetail(request.getAddressDetail())
                 .build();
     }
 }

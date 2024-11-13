@@ -1,5 +1,6 @@
 package com.mozipp.server.domain.designer.controller;
 
+import com.mozipp.server.domain.designer.dto.DesignerLicenseImageDto;
 import com.mozipp.server.domain.designer.dto.DesignerProfileRequest;
 import com.mozipp.server.domain.designer.dto.DesignerSignUpDto;
 import com.mozipp.server.domain.designer.service.DesignerRegisterService;
@@ -36,4 +37,13 @@ public class DesignerRegisterController {
         designerRegisterService.registerDesignerProfile(request, user);
         return BaseResponse.success();
     }
+
+    // 디자이너 자격증 사진 등록
+    @PostMapping("/profile/image")
+    public BaseResponse<Object> registerLicenseImage(@RequestBody DesignerLicenseImageDto request, @AuthenticationPrincipal UserDetails userDetails){
+        User user = userFindService.findByUserDetails(userDetails);
+        designerRegisterService.registerLicenseImage(request, user);
+        return BaseResponse.success();
+    }
+
 }
