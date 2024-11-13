@@ -43,7 +43,7 @@ public class DesignerRetrieveController {
         try {
             User user = userMatchService.authenticate(loginDto.getUsername(), loginDto.getPassword());
             AuthResponseDto authResponse = authService.login(loginDto);
-            return BaseResponse.success();
+            return BaseResponse.success(authResponse);
         } catch (Exception e) {
             return BaseResponse.fail(UNAUTHORIZED);
         }
