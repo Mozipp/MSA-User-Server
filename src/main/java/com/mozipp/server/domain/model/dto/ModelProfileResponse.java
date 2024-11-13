@@ -11,12 +11,10 @@ import lombok.NoArgsConstructor;
 public class ModelProfileResponse {
     private String name;
     private Gender gender;
-    private Boolean isVerified;
 
     @Builder
     public ModelProfileResponse(String name, Gender gender, Boolean isVerified) {
         this.name = name;
         this.gender = gender;
-        this.isVerified = isVerified;
     }
 }

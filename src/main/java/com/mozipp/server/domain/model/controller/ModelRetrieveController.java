@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/model")
+@RequestMapping("/api/users/model")
 public class ModelRetrieveController {
 
     private final ModelRetrieveService modelRetrieveService;

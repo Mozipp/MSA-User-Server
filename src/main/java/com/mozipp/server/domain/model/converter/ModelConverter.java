@@ -33,7 +33,6 @@ public class ModelConverter {
         return ModelProfileResponse.builder()
                 .name(user.getName())
                 .gender(user.getGender())
-                .isVerified(user.getIsVerified())
                 .build();
     }
 
