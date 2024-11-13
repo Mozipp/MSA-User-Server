@@ -3,6 +3,7 @@ package com.mozipp.server.domain.model.entity;
 import com.mozipp.server.domain.user.entity.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @PrimaryKeyJoinColumn(name = "id")
+@Table(name = "model")
 public class Model extends User {
 
     private String petName;
