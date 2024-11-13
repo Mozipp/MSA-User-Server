@@ -17,7 +17,6 @@ import java.util.List;
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@PrimaryKeyJoinColumn(name = "user_id")
 public class Designer extends User {
 
     private String licenseImageUrl;
