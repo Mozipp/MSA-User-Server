@@ -6,9 +6,11 @@ import jakarta.persistence.PrimaryKeyJoinColumn;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Getter
+@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @PrimaryKeyJoinColumn(name = "model_id")
 public class Model extends User {
@@ -16,6 +18,8 @@ public class Model extends User {
     private String petName;
 
     private String petAge;
+
+    private PetGender petGender;
 
     private String breed;
 

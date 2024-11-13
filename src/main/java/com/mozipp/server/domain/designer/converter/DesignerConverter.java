@@ -8,8 +8,8 @@ import com.mozipp.server.domain.user.entity.Role;
 import com.mozipp.server.domain.user.entity.User;
 
 public class DesignerConverter {
-    public static User toUserEntity(DesignerSignUpDto designerSignUpDto, String encodedPassword, Role role) {
-        return User.builder()
+    public static Designer toDesigner(DesignerSignUpDto designerSignUpDto, String encodedPassword, Role role) {
+        return Designer.builder()
                 .username(designerSignUpDto.getUsername())
                 .password(encodedPassword)
                 .name(designerSignUpDto.getName())
@@ -18,12 +18,12 @@ public class DesignerConverter {
                 .build();
     }
 
-    public static DesignerProfileResponse toDeisgnerProfileResponseDto(User user) {
+    public static DesignerProfileResponse toDeisgnerProfileResponse(User user) {
         Designer designer = (Designer) user;
         PetShopProfileDto petShopProfileDto = PetShopProfileDto.builder()
-                .petShopName(((Designer) user).getPetShop().getPetShopName())
-                .petShopName(((Designer) user).getPetShop().getAddress())
-                .petShopName(((Designer) user).getPetShop().getAddressDetail())
+                .petShopName(designer.getPetShop().getPetShopName())
+                .petShopName(designer.getPetShop().getAddress())
+                .petShopName(designer.getPetShop().getAddressDetail())
                 .build();
 
         return DesignerProfileResponse.builder()

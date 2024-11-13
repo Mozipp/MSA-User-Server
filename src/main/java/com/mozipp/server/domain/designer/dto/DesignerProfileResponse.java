@@ -1,7 +1,7 @@
 package com.mozipp.server.domain.designer.dto;
 
 import com.mozipp.server.domain.petgroomingimage.entity.PetGroomingImage;
-import com.mozipp.server.domain.user.entity.Gender;
+import com.mozipp.server.domain.model.entity.Gender;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

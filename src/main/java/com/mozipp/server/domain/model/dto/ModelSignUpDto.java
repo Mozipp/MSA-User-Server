@@ -1,6 +1,6 @@
 package com.mozipp.server.domain.model.dto;
 
-import com.mozipp.server.domain.user.entity.Gender;
+import com.mozipp.server.domain.model.entity.Gender;
 import lombok.Getter;
 import lombok.Setter;
 

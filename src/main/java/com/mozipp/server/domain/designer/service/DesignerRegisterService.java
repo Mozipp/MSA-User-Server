@@ -10,6 +10,8 @@ import com.mozipp.server.domain.petshop.repository.PetShopRepository;
 import com.mozipp.server.domain.user.entity.Role;
 import com.mozipp.server.domain.user.entity.User;
 import com.mozipp.server.domain.user.repository.UserRepository;
+import com.mozipp.server.global.handler.BaseException;
+import com.mozipp.server.global.handler.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,14 +31,15 @@ public class DesignerRegisterService {
 
         // 중복된 아이디 확인
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new IllegalArgumentException("이미 존재하는 아이디입니다");
+            throw new BaseException(BaseResponseStatus.CONFLICT_DUPLICATE_ID);
         }
         String encodedPassword = passwordEncoder.encode(request.getPassword());
-        userRepository.save(DesignerConverter.toUserEntity(request, encodedPassword, Role.DESIGNER));
+        Designer designer = DesignerConverter.toDesigner(request, encodedPassword, Role.DESIGNER);
+        userRepository.save(designer);
     }
 
     @Transactional
-    public void registerProfile(User user, DesignerProfileRequest request) {
+    public void registerDesignerProfile(DesignerProfileRequest request, User user) {
 
         Designer designer = (Designer) user;
 

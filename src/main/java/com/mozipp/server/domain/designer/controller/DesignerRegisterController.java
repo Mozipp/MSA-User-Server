@@ -31,9 +31,9 @@ public class DesignerRegisterController {
 
     //디자이너 기본 프로필 등록
     @PostMapping("/profile")
-    public BaseResponse<Object> registerProfile(@RequestBody DesignerProfileRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+    public BaseResponse<Object> registerDesignerProfile(@RequestBody DesignerProfileRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         User user = userFindService.findByUserDetails(userDetails);
-        designerRegisterService.registerProfile(user, request);
+        designerRegisterService.registerDesignerProfile(request, user);
         return BaseResponse.success();
     }
 }

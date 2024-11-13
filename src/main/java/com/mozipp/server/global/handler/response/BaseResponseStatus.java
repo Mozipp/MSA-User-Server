@@ -32,12 +32,15 @@ public enum BaseResponseStatus {
      * 404 NOT_FOUND 잘못된 리소스 접근
      */
     NOT_FOUND(false, 404, HttpStatus.NOT_FOUND, "요청한 리소스를 찾을 수 없음"),
+    NOT_FOUND_RESERVATION_REQUEST(false, 40401, HttpStatus.NOT_FOUND, "해당 Reservation Request를 찾을 수 없음"),
+    NOT_FOUND_DESIGNER_PRODUCT(false, 40402, HttpStatus.NOT_FOUND, "해당 Designer Product를 찾을 수 없음"),
+    NOT_FOUND_RESERVATION(false, 40403, HttpStatus.NOT_FOUND, "해당 Reservation을 찾을 수 없음"),
 
     /**
      * 409 CONFLICT 중복된 리소스
      */
     CONFLICT(false, 409, HttpStatus.CONFLICT, "중복된 리소스 입력"),
-    DUPLICATE_ID(false, 40901, HttpStatus.CONFLICT, "중복된 아이디"),
+    CONFLICT_DUPLICATE_ID(false, 40901, HttpStatus.CONFLICT, "중복된 아이디"),
 
     /**
      * 500 INTERNAL_SERVER_ERROR 서버 내부 에러

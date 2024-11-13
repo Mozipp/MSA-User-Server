@@ -21,11 +21,11 @@ public class DesignerRetrieveController {
     private final DesignerRetrieveService designerRetrieveService;
     private final UserFindService userFindService;
 
-    //디자이너 프로필 조회
+    // 디자이너 프로필 조회
     @GetMapping("/profile")
     public BaseResponse<DesignerProfileResponse> getDesignerProfile(@AuthenticationPrincipal UserDetails userDetails) {
         User user = userFindService.findByUserDetails(userDetails);
-        DesignerProfileResponse designerProfileResponse = DesignerConverter.toDeisgnerProfileResponseDto(user);
+        DesignerProfileResponse designerProfileResponse = DesignerConverter.toDeisgnerProfileResponse(user);
         return BaseResponse.success(designerProfileResponse);
     }
 }

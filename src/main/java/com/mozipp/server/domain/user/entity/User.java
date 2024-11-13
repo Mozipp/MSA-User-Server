@@ -1,7 +1,9 @@
 package com.mozipp.server.domain.user.entity;
 
+import com.mozipp.server.domain.model.entity.Gender;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-@Builder
+@SuperBuilder
 @Table(name = "users")
 public class User extends BaseTimeEntity implements UserDetails {
 
