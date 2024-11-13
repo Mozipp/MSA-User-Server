@@ -14,7 +14,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @PrimaryKeyJoinColumn(name = "id")
-@Table(name = "model")
 public class Model extends User {
 
     private String petName;
