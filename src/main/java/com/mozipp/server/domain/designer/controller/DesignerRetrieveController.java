@@ -48,4 +48,15 @@ public class DesignerRetrieveController {
             return BaseResponse.fail(UNAUTHORIZED);
         }
     }
+
+    @PostMapping("/logout")
+    public BaseResponse<Void> logout(@RequestHeader("Authorization") String authorizationHeader) {
+        try {
+            String accessToken = authorizationHeader.substring(7); // "Bearer " 제거
+            authService.logout(accessToken);
+            return BaseResponse.success();
+        } catch (Exception e) {
+            return BaseResponse.fail(UNAUTHORIZED);
+        }
+    }
 }

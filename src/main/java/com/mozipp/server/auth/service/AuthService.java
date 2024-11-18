@@ -2,6 +2,8 @@ package com.mozipp.server.auth.service;
 
 import com.mozipp.server.auth.dto.AuthResponseDto;
 import com.mozipp.server.domain.designer.dto.DesignerLoginDto;
+import com.mozipp.server.global.util.JwtUtil;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,7 @@ public class AuthService {
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     private final WebClient webClient;
+    private final JwtUtil jwtUtil;
 
     @Value("${auth.service.url}")
     private String authServiceUrl;
@@ -44,5 +47,13 @@ public class AuthService {
                 .doOnSuccess(response -> logger.info("Logout successful on Auth server"))
                 .doOnError(error -> logger.error("Logout request to Auth server failed: {}", error.getMessage()))
                 .block(); // 블로킹 호출
+    }
+
+        public void test(String accessToken) {
+        logger.info("test for print claims in username");
+        Claims claims = jwtUtil.getClaimsFromToken(accessToken);
+
+        String username = claims.getSubject();
+        logger.info("test for user: {}", username);
     }
 }
