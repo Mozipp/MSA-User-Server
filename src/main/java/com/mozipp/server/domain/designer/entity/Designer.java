@@ -50,6 +50,6 @@ public class Designer extends User {
     }
 
     public void addPetGroomingImage(PetGroomingImage petGroomingImage) {
-        this.petGroomingImages.add(petGroomingImage);
+        petGroomingImages.add(petGroomingImage);
     }
 }
