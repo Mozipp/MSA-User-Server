@@ -49,11 +49,10 @@ public class AuthService {
                 .block(); // 블로킹 호출
     }
 
-        public void test(String accessToken) {
+        public String test(String accessToken) {
         logger.info("test for print claims in username");
         Claims claims = jwtUtil.getClaimsFromToken(accessToken);
 
-        String username = claims.getSubject();
-        logger.info("test for user: {}", username);
+        return claims.getSubject();
     }
 }

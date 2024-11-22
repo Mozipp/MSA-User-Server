@@ -16,11 +16,10 @@ public class TestController {
 
     private final AuthService authService;
         @PostMapping("/test")
-    public ResponseEntity<Void> test(@RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<String> test(@RequestHeader("Authorization") String authorizationHeader) {
         try {
             String accessToken = authorizationHeader.substring(7); // "Bearer " 제거
-            authService.test(accessToken);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(authService.test(accessToken));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
