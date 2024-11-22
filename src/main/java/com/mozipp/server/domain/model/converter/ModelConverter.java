@@ -2,11 +2,9 @@ package com.mozipp.server.domain.model.converter;
 
 import com.mozipp.server.domain.model.dto.ModelProfileResponse;
 import com.mozipp.server.domain.model.dto.ModelSignUpDto;
-import com.mozipp.server.domain.model.dto.PetProfileRequest;
 import com.mozipp.server.domain.model.dto.PetProfileResponse;
 import com.mozipp.server.domain.model.entity.Model;
 import com.mozipp.server.domain.user.entity.Role;
-import com.mozipp.server.domain.user.entity.User;
 
 public class ModelConverter {
     public static Model toModel(ModelSignUpDto modelSignUpDto, String encodedPassword, Role role) {
@@ -21,7 +19,7 @@ public class ModelConverter {
 
     public static PetProfileResponse toPetProfileResponse(Model model) {
         return PetProfileResponse.builder()
-                .petName(model.getName())
+                .petName(model.getPetName())
                 .petAge(model.getPetAge())
                 .petGender(model.getPetGender())
                 .breed(model.getBreed())
@@ -29,19 +27,10 @@ public class ModelConverter {
                 .build();
     }
 
-    public static ModelProfileResponse toModelProfileResponse(User user) {
+    public static ModelProfileResponse toModelProfileResponse(Model model) {
         return ModelProfileResponse.builder()
-                .name(user.getName())
-                .gender(user.getGender())
-                .build();
-    }
-
-    public static Model toModelEntity(PetProfileRequest request, User user) {
-        return Model.builder()
-                .petName(request.getPetName())
-                .petAge(request.getPetAge())
-                .petGender(request.getPetGender())
-                .breed(request.getBreed())
+                .name(model.getName())
+                .gender(model.getGender())
                 .build();
     }
 }
