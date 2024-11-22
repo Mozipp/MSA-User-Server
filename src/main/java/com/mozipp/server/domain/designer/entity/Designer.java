@@ -24,7 +24,7 @@ public class Designer extends User {
 
     private String career;
 
-    private Boolean isVerified = false;
+    private Boolean isVerified;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pet_shop_id")
@@ -47,5 +47,9 @@ public class Designer extends User {
 
     public void updateLicenseImageUrl(String licenseImageUrl) {
         this.licenseImageUrl = licenseImageUrl;
+    }
+
+    public void addPetGroomingImage(PetGroomingImage petGroomingImage) {
+        this.petGroomingImages.add(petGroomingImage);
     }
 }

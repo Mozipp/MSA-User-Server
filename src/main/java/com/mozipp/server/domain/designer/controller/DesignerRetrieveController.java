@@ -1,24 +1,17 @@
 package com.mozipp.server.domain.designer.controller;
 
-import com.mozipp.server.auth.dto.AuthResponseDto;
-import com.mozipp.server.auth.service.AuthService;
 import com.mozipp.server.domain.designer.converter.DesignerConverter;
-import com.mozipp.server.domain.designer.dto.DesignerLoginDto;
 import com.mozipp.server.domain.designer.dto.DesignerProfileResponse;
-import com.mozipp.server.domain.designer.service.DesignerRetrieveService;
-import com.mozipp.server.domain.user.entity.User;
-import com.mozipp.server.domain.user.service.UserFindService;
-import com.mozipp.server.domain.user.service.UserMatchService;
+import com.mozipp.server.domain.designer.entity.Designer;
+import com.mozipp.server.domain.designer.repository.DesignerRepository;
+import com.mozipp.server.global.handler.BaseException;
 import com.mozipp.server.global.handler.response.BaseResponse;
-import jakarta.validation.Valid;
+import com.mozipp.server.global.handler.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
-
-import static com.mozipp.server.global.handler.response.BaseResponseStatus.UNAUTHORIZED;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor

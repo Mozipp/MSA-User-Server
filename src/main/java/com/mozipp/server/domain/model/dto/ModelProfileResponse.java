@@ -13,7 +13,7 @@ public class ModelProfileResponse {
     private Gender gender;
 
     @Builder
-    public ModelProfileResponse(String name, Gender gender, Boolean isVerified) {
+    public ModelProfileResponse(String name, Gender gender) {
         this.name = name;
         this.gender = gender;
     }
