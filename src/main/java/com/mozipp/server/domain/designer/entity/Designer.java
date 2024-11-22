@@ -38,7 +38,7 @@ public class Designer extends User {
 
     public void updatePetShop(PetShop petShop) {
         this.petShop = petShop;
-        petShop.getDesigners().add(this);
+        petShop.addDesigner(this);
     }
 
     public void updateCareer(String career) {

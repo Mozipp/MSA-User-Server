@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ModelRegisterController {
 
     private final ModelRegisterService modelRegisterService;
-    private final ModelRepository modelRepository;
 
     // Model 회원가입
     @PostMapping("/sign-up")
