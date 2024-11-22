@@ -18,7 +18,6 @@ public class PetShop extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pet_shop_id")
     private Long id;
 
     private String petShopName;

@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
-public class DesignerLicenseImageDto {
+public class DesignerPetGroomingImageDto {
     private Long designerId;
-    private MultipartFile licenseImage;
+    private MultipartFile petGroomingImage;
 }

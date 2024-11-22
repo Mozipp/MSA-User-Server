@@ -1,13 +1,13 @@
 package com.mozipp.server.domain.designer.converter;
 
-import com.mozipp.server.domain.designer.dto.DesignerProfileRequest;
-import com.mozipp.server.domain.designer.dto.DesignerProfileResponse;
-import com.mozipp.server.domain.designer.dto.DesignerSignUpDto;
+import com.mozipp.server.domain.designer.dto.*;
 import com.mozipp.server.domain.designer.entity.Designer;
-import com.mozipp.server.domain.designer.dto.PetShopProfileDto;
+import com.mozipp.server.domain.petgroomingimage.entity.PetGroomingImage;
 import com.mozipp.server.domain.petshop.entity.PetShop;
 import com.mozipp.server.domain.user.entity.Role;
-import com.mozipp.server.domain.user.entity.User;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DesignerConverter {
     public static Designer toDesigner(DesignerSignUpDto designerSignUpDto, String encodedPassword, Role role) {
@@ -16,24 +16,35 @@ public class DesignerConverter {
                 .password(encodedPassword)
                 .name(designerSignUpDto.getName())
                 .gender(designerSignUpDto.getGender())
+                .isVerified(false)
                 .role(role)
                 .build();
     }
 
-    public static DesignerProfileResponse toDesignerProfileResponse(User user) {
-        Designer designer = (Designer) user;
-        PetShopProfileDto petShopProfileDto = PetShopProfileDto.builder()
-                .petShopName(designer.getPetShop().getPetShopName())
-                .petShopName(designer.getPetShop().getAddress())
-                .petShopName(designer.getPetShop().getAddressDetail())
-                .build();
+    public static DesignerProfileResponse toDesignerProfileResponse(Designer designer) {
+        PetShopProfileDto petShopProfileDto = null;
+        if(designer.getPetShop() != null) {
+            petShopProfileDto = PetShopProfileDto.builder()
+                    .petShopName(designer.getPetShop().getPetShopName())
+                    .address(designer.getPetShop().getAddress())
+                    .addressDetail(designer.getPetShop().getAddressDetail())
+                    .build();
+        }
+
+        List<PetGroomingImage> petGroomingImages = designer.getPetGroomingImages();
+        List<PetGroomingImageDto> petGroomingImageDtos = petGroomingImages.stream()
+                .map(image -> PetGroomingImageDto.builder()
+                        .imageUrl(image.getImageUrl())
+                        .build())
+                .collect(Collectors.toList());
 
         return DesignerProfileResponse.builder()
                 .name(designer.getName())
                 .gender(designer.getGender())
+                .career(designer.getCareer())
                 .isVerified(designer.getIsVerified())
-                .petShopProfileDto(petShopProfileDto)
-                .petGroomingImageUrl(designer.getPetGroomingImages())
+                .petShop(petShopProfileDto)
+                .petGroomingImageUrl(petGroomingImageDtos)
                 .build();
     }
 
