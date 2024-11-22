@@ -1,33 +1,40 @@
 package com.mozipp.server.domain.designer.controller;
 
+import com.mozipp.server.auth.dto.AuthResponseDto;
+import com.mozipp.server.auth.service.AuthService;
 import com.mozipp.server.domain.designer.converter.DesignerConverter;
+import com.mozipp.server.domain.designer.dto.DesignerLoginDto;
 import com.mozipp.server.domain.designer.dto.DesignerProfileResponse;
 import com.mozipp.server.domain.designer.entity.Designer;
 import com.mozipp.server.domain.designer.repository.DesignerRepository;
+import com.mozipp.server.domain.user.entity.User;
+import com.mozipp.server.domain.user.service.UserMatchService;
 import com.mozipp.server.global.handler.BaseException;
 import com.mozipp.server.global.handler.response.BaseResponse;
 import com.mozipp.server.global.handler.response.BaseResponseStatus;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import static com.mozipp.server.global.handler.response.BaseResponseStatus.UNAUTHORIZED;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users/designer")
 public class DesignerRetrieveController {
 
-    private final DesignerRetrieveService designerRetrieveService;
-    private final UserFindService userFindService;
-    private final UserMatchService userMatchService;
     private final AuthService authService;
+    private final DesignerRepository designerRepository;
+    private final UserMatchService userMatchService;
 
     // 디자이너 프로필 조회
-    @GetMapping("/profile")
-    public BaseResponse<DesignerProfileResponse> getDesignerProfile(@AuthenticationPrincipal UserDetails userDetails) {
-        User user = userFindService.findByUserDetails(userDetails);
-        DesignerProfileResponse designerProfileResponse = DesignerConverter.toDesignerProfileResponse(user);
+    @GetMapping("/profile/{designerId}")
+    public BaseResponse<DesignerProfileResponse> getDesignerProfile(@PathVariable Long designerId) {
+
+        Designer designer = designerRepository.findById(designerId)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_DESIGNER));
+
+        DesignerProfileResponse designerProfileResponse = DesignerConverter.toDesignerProfileResponse(designer);
         return BaseResponse.success(designerProfileResponse);
     }
 
