@@ -5,6 +5,8 @@ import com.mozipp.server.domain.designer.entity.Designer;
 import com.mozipp.server.domain.petgroomingimage.entity.PetGroomingImage;
 import com.mozipp.server.domain.petshop.entity.PetShop;
 import com.mozipp.server.domain.user.entity.Role;
+import com.mozipp.server.global.handler.BaseException;
+import com.mozipp.server.global.handler.response.BaseResponseStatus;
 
 import java.util.List;
 import java.util.stream.Collectors;
