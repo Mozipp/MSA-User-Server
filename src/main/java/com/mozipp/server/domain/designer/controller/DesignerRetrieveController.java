@@ -2,18 +2,13 @@ package com.mozipp.server.domain.designer.controller;
 
 import com.mozipp.server.auth.dto.AuthResponseDto;
 import com.mozipp.server.auth.service.AuthService;
-import com.mozipp.server.domain.designer.converter.DesignerConverter;
 import com.mozipp.server.domain.designer.dto.DesignerLoginDto;
 import com.mozipp.server.domain.designer.dto.DesignerProfileResponse;
-import com.mozipp.server.domain.designer.entity.Designer;
-import com.mozipp.server.domain.designer.repository.DesignerRepository;
 import com.mozipp.server.domain.designer.service.DesignerRetrieveService;
 import com.mozipp.server.domain.user.entity.User;
 import com.mozipp.server.domain.user.service.UserFindService;
 import com.mozipp.server.domain.user.service.UserMatchService;
-import com.mozipp.server.global.handler.BaseException;
 import com.mozipp.server.global.handler.response.BaseResponse;
-import com.mozipp.server.global.handler.response.BaseResponseStatus;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +38,17 @@ public class DesignerRetrieveController {
         try {
             User user = userMatchService.authenticate(loginDto.getUsername(), loginDto.getPassword());
             AuthResponseDto authResponse = authService.login(loginDto);
+            return BaseResponse.success(authResponse);
+        } catch (Exception e) {
+            return BaseResponse.fail(UNAUTHORIZED);
+        }
+    }
+
+    @PostMapping("/logout")
+    public BaseResponse<Void> logout(@RequestHeader("Authorization") String authorizationHeader) {
+        try {
+            String accessToken = authorizationHeader.substring(7); // "Bearer " 제거
+            authService.logout(accessToken);
             return BaseResponse.success();
         } catch (Exception e) {
             return BaseResponse.fail(UNAUTHORIZED);
