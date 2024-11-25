@@ -15,8 +15,9 @@ public class UserFindService {
 
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
-
+    String accessToken = authorizationHeader.substring(7); // "Bearer " 제거
     public Long getUserId(String accessToken) {
+        accessToken = accessToken.substring(7);
         Claims claims = jwtUtil.getClaimsFromToken(accessToken);
         String username = claims.getSubject();
         User user = userRepository.findByUsername(username)
