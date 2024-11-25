@@ -17,7 +17,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 @SuperBuilder
 @Table(name = "users")
-public class User extends BaseTimeEntity implements UserDetails {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,29 +35,4 @@ public class User extends BaseTimeEntity implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
-    }
 }

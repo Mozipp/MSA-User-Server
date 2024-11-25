@@ -36,8 +36,8 @@ public class ModelRegisterService {
     }
 
     @Transactional
-    public void registerModelPetProfile(PetProfileRequest request) {
-        Model model = modelRepository.findById(request.getModelId())
+    public void registerModelPetProfile(PetProfileRequest request, Long modelId) {
+        Model model = modelRepository.findById(modelId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MODEL));
         model.updatePetProfile(
                 request.getPetName(),
@@ -48,8 +48,8 @@ public class ModelRegisterService {
     }
 
     @Transactional
-    public void registerPetImage(ModelPetImageDto request) {
-        Model model = modelRepository.findById(request.getModelId())
+    public void registerPetImage(ModelPetImageDto request, Long modelId) {
+        Model model = modelRepository.findById(modelId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MODEL));
 
         if(request.getPetImage() != null && !request.getPetImage().isEmpty()) {

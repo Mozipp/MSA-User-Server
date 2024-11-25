@@ -35,4 +35,8 @@ public class PetShop extends BaseTimeEntity {
         this.address = address;
         this.addressDetail = addressDetail;
     }
+
+    public void addDesigner(Designer designer) {
+        designers.add(designer);
+    }
 }

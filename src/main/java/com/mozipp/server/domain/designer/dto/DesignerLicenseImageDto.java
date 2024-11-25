@@ -7,6 +7,5 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Setter
 public class DesignerLicenseImageDto {
-    private Long designerId;
     private MultipartFile licenseImage;
 }

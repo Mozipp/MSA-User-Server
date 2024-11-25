@@ -4,6 +4,9 @@ import com.mozipp.server.domain.model.converter.ModelConverter;
 import com.mozipp.server.domain.model.dto.ModelProfileResponse;
 import com.mozipp.server.domain.model.dto.PetProfileResponse;
 import com.mozipp.server.domain.model.entity.Model;
+import com.mozipp.server.domain.model.repository.ModelRepository;
+import com.mozipp.server.global.handler.BaseException;
+import com.mozipp.server.global.handler.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +14,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ModelRetrieveService {
 
-    public PetProfileResponse getPetProfile(Model model) {
+    private final ModelRepository modelRepository;
+
+    public PetProfileResponse getPetProfile(Long modelId) {
+        Model model = modelRepository.findById(modelId)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MODEL));
         return ModelConverter.toPetProfileResponse(model);
     }
 
-    public ModelProfileResponse getModelProfile(Model model) {
+    public ModelProfileResponse getModelProfile(Long modelId) {
+        Model model = modelRepository.findById(modelId)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_MODEL));
         return ModelConverter.toModelProfileResponse(model);
     }
 }

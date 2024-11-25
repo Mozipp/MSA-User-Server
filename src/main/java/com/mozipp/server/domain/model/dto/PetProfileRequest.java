@@ -7,7 +7,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PetProfileRequest {
-    private Long modelId;
     private String petName;
     private String petAge;
     private PetGender petGender;

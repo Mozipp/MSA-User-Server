@@ -46,9 +46,9 @@ public class DesignerRegisterService {
     }
 
     @Transactional
-    public void registerDesignerProfile(DesignerProfileRequest request) {
+    public void registerDesignerProfile(DesignerProfileRequest request, Long designerId) {
 
-        Designer designer = designerRepository.findById(request.getDesignerId())
+        Designer designer = designerRepository.findById(designerId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_DESIGNER));
 
         PetShop petShop = DesignerConverter.toPetShop(request);
@@ -59,9 +59,9 @@ public class DesignerRegisterService {
     }
 
     @Transactional
-    public void registerLicenseImage(DesignerLicenseImageDto request) {
+    public void registerLicenseImage(DesignerLicenseImageDto request, Long designerId) {
 
-        Designer designer = designerRepository.findById(request.getDesignerId())
+        Designer designer = designerRepository.findById(designerId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_DESIGNER));
 
         if(request.getLicenseImage() != null && !request.getLicenseImage().isEmpty()) {
@@ -72,8 +72,8 @@ public class DesignerRegisterService {
     }
 
     @Transactional
-    public void registerPetGroomingImage(DesignerPetGroomingImageDto request) {
-        Designer designer = designerRepository.findById(request.getDesignerId())
+    public void registerPetGroomingImage(DesignerPetGroomingImageDto request, Long designerId) {
+        Designer designer = designerRepository.findById(designerId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_DESIGNER));
 
         if(request.getPetGroomingImage() != null && !request.getPetGroomingImage().isEmpty()) {
