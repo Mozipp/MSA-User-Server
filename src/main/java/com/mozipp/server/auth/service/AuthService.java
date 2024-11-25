@@ -2,15 +2,18 @@ package com.mozipp.server.auth.service;
 
 import com.mozipp.server.auth.dto.AuthResponseDto;
 import com.mozipp.server.domain.designer.dto.DesignerLoginDto;
-import com.mozipp.server.global.util.JwtUtil;
-import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -19,22 +22,43 @@ public class AuthService {
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
     private final WebClient webClient;
-    private final JwtUtil jwtUtil;
 
     @Value("${auth.service.url}")
     private String authServiceUrl;
 
-    public AuthResponseDto login(DesignerLoginDto loginDto) {
+    public AuthResponseDto login(DesignerLoginDto loginDto, HttpServletResponse response) {
         logger.info("Sending login request to Auth server for username: {}", loginDto.getUsername());
-        return webClient.post()
-                .uri(authServiceUrl + "/auth/login")
-                .contentType(MediaType.APPLICATION_JSON)
+        // WebClient를 사용하여 인증 서버에 로그인 요청 보내기
+        Mono<AuthResponseDto> authResponseMono = webClient.post()
+                .uri(authServiceUrl+"/auth/login")
+                .header(HttpHeaders.CONTENT_TYPE, "application/json")
                 .bodyValue(loginDto)
-                .retrieve()
-                .bodyToMono(AuthResponseDto.class)
-                .doOnNext(response -> logger.info("Received login response from Auth server"))
-                .doOnError(error -> logger.error("Login request to Auth server failed: {}", error.getMessage()))
-                .block(); // 블로킹 호출
+                .exchangeToMono(clientResponse -> {
+                    if (clientResponse.statusCode().is2xxSuccessful()) {
+                        // 인증 서버의 Set-Cookie 헤더 추출
+                        HttpHeaders headers = clientResponse.headers().asHttpHeaders();
+                        List<String> setCookieHeaders = headers.get(HttpHeaders.SET_COOKIE);
+                        if (setCookieHeaders != null) {
+                            for (String setCookie : setCookieHeaders) {
+                                // 클라이언트 응답에 Set-Cookie 헤더 추가
+                                response.addHeader(HttpHeaders.SET_COOKIE, setCookie);
+                            }
+                        }
+                        // 응답 본문을 AuthResponseDto로 변환
+                        return clientResponse.bodyToMono(AuthResponseDto.class);
+                    } else {
+                        // 오류 처리
+                        return clientResponse.createException()
+                                .flatMap(error -> Mono.error(new RuntimeException("Auth server login failed")));
+                    }
+                });
+
+        // 블로킹 호출로 AuthResponseDto 객체 얻기
+        AuthResponseDto authResponse = authResponseMono.block();
+        if (authResponse == null) {
+            throw new RuntimeException("Auth server login failed");
+        }
+        return authResponse;
     }
 
     public void logout(String accessToken) {
