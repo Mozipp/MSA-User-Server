@@ -10,6 +10,7 @@ import com.mozipp.server.domain.user.entity.User;
 import com.mozipp.server.domain.user.service.UserFindService;
 import com.mozipp.server.domain.user.service.UserMatchService;
 import com.mozipp.server.global.handler.response.BaseResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -43,10 +44,10 @@ public class ModelRetrieveController {
     }
 
     @PostMapping("/login")
-    public BaseResponse<AuthResponseDto> login(@Valid @RequestBody DesignerLoginDto loginDto) {
+    public BaseResponse<AuthResponseDto> login(@Valid @RequestBody DesignerLoginDto loginDto, HttpServletResponse response) {
         try {
             User user = userMatchService.authenticate(loginDto.getUsername(), loginDto.getPassword());
-            AuthResponseDto authResponse = authService.login(loginDto);
+            AuthResponseDto authResponse = authService.login(loginDto, response);
             return BaseResponse.success(authResponse);
         } catch (Exception e) {
             return BaseResponse.fail(UNAUTHORIZED);
