@@ -5,7 +5,6 @@ import com.mozipp.server.domain.user.repository.UserRepository;
 import com.mozipp.server.global.handler.BaseException;
 import com.mozipp.server.global.handler.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -1,13 +1,12 @@
 package com.mozipp.server.domain.designer.controller;
 
-import com.mozipp.server.domain.designer.dto.*;
-import com.mozipp.server.domain.designer.entity.Designer;
-import com.mozipp.server.domain.designer.repository.DesignerRepository;
+import com.mozipp.server.domain.designer.dto.DesignerLicenseImageDto;
+import com.mozipp.server.domain.designer.dto.DesignerPetGroomingImageDto;
+import com.mozipp.server.domain.designer.dto.DesignerProfileRequest;
+import com.mozipp.server.domain.designer.dto.DesignerSignUpDto;
 import com.mozipp.server.domain.designer.service.DesignerRegisterService;
 import com.mozipp.server.domain.user.service.UserFindService;
-import com.mozipp.server.global.handler.BaseException;
 import com.mozipp.server.global.handler.response.BaseResponse;
-import com.mozipp.server.global.handler.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

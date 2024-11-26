@@ -1,9 +1,7 @@
 package com.mozipp.server.global.util;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import org.slf4j.Logger;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Component;
 import java.io.InputStream;
 import java.security.KeyPair;
 import java.security.KeyStore;
-import java.util.Date;
 
 @Component
 public class JwtUtil {
