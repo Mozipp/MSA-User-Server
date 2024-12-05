@@ -3,7 +3,6 @@ package com.mozipp.server.domain.model.controller;
 import com.mozipp.server.domain.model.dto.ModelPetImageDto;
 import com.mozipp.server.domain.model.dto.ModelSignUpDto;
 import com.mozipp.server.domain.model.dto.PetProfileRequest;
-import com.mozipp.server.domain.model.repository.ModelRepository;
 import com.mozipp.server.domain.model.service.ModelRegisterService;
 import com.mozipp.server.domain.user.service.UserFindService;
 import com.mozipp.server.global.handler.response.BaseResponse;
