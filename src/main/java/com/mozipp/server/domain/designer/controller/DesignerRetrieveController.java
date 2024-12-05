@@ -1,6 +1,5 @@
 package com.mozipp.server.domain.designer.controller;
 
-import com.mozipp.server.auth.dto.AuthResponseDto;
 import com.mozipp.server.auth.service.AuthService;
 import com.mozipp.server.domain.designer.dto.DesignerLoginDto;
 import com.mozipp.server.domain.designer.dto.DesignerProfileResponse;
@@ -9,12 +8,13 @@ import com.mozipp.server.domain.user.entity.User;
 import com.mozipp.server.domain.user.service.UserFindService;
 import com.mozipp.server.domain.user.service.UserMatchService;
 import com.mozipp.server.global.handler.response.BaseResponse;
+import com.mozipp.server.global.util.CookieUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import static com.mozipp.server.global.handler.response.BaseResponseStatus.UNAUTHORIZED;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,11 +25,11 @@ public class DesignerRetrieveController {
     private final AuthService authService;
     private final UserFindService userFindService;
     private final DesignerRetrieveService designerRetrieveService;
+    private final CookieUtil cookieUtil;
 
     // 디자이너 프로필 조회
     @GetMapping("/profile")
-    public BaseResponse<DesignerProfileResponse> getDesignerProfile(@RequestHeader("Authorization") String authorizationHeader) {
-        Long designerId = userFindService.getUserId(authorizationHeader);
+    public BaseResponse<DesignerProfileResponse> getDesignerProfile(@AuthenticationPrincipal Long designerId) {
         DesignerProfileResponse response = designerRetrieveService.getDesignerProfile(designerId);
         return BaseResponse.success(response);
     }
@@ -42,8 +42,8 @@ public class DesignerRetrieveController {
     }
 
     @PostMapping("/logout")
-    public BaseResponse<Void> logout(@RequestHeader("Authorization") String authorizationHeader) {
-            String accessToken = authorizationHeader.substring(7); // "Bearer " 제거
+    public BaseResponse<Void> logout(HttpServletRequest httpRequest) {
+            String accessToken = cookieUtil.getCookieValue(httpRequest, "access_token");
             authService.logout(accessToken);
             return BaseResponse.success();
     }

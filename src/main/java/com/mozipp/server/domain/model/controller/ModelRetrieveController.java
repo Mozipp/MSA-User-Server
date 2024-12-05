@@ -1,6 +1,5 @@
 package com.mozipp.server.domain.model.controller;
 
-import com.mozipp.server.auth.dto.AuthResponseDto;
 import com.mozipp.server.auth.service.AuthService;
 import com.mozipp.server.domain.designer.dto.DesignerLoginDto;
 import com.mozipp.server.domain.model.dto.ModelProfileResponse;
@@ -10,12 +9,13 @@ import com.mozipp.server.domain.user.entity.User;
 import com.mozipp.server.domain.user.service.UserFindService;
 import com.mozipp.server.domain.user.service.UserMatchService;
 import com.mozipp.server.global.handler.response.BaseResponse;
+import com.mozipp.server.global.util.CookieUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import static com.mozipp.server.global.handler.response.BaseResponseStatus.UNAUTHORIZED;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,19 +26,18 @@ public class ModelRetrieveController {
     private final UserFindService userFindService;
     private final UserMatchService userMatchService;
     private final AuthService authService;
+    private final CookieUtil cookieUtil;
 
     // Model 프로필 조회
     @GetMapping("/profile")
-    public BaseResponse<ModelProfileResponse> getModelProfile(@RequestHeader("Authorization") String authorizationHeader) {
-        Long modelId = userFindService.getUserId(authorizationHeader);
+    public BaseResponse<ModelProfileResponse> getModelProfile(@AuthenticationPrincipal Long modelId) {
         ModelProfileResponse response = modelRetrieveService.getModelProfile(modelId);
         return BaseResponse.success(response);
     }
 
     // Model 애완동물 프로필 조회
     @GetMapping("/pet/profile")
-    public BaseResponse<PetProfileResponse> getPetProfile(@RequestHeader("Authorization") String authorizationHeader) {
-        Long modelId = userFindService.getUserId(authorizationHeader);
+    public BaseResponse<PetProfileResponse> getPetProfile(@AuthenticationPrincipal Long modelId) {
         PetProfileResponse response = modelRetrieveService.getPetProfile(modelId);
         return BaseResponse.success(response);
     }
@@ -51,8 +50,8 @@ public class ModelRetrieveController {
     }
 
     @PostMapping("/logout")
-    public BaseResponse<Void> logout(@RequestHeader("Authorization") String authorizationHeader) {
-            String accessToken = authorizationHeader.substring(7); // "Bearer " 제거
+    public BaseResponse<Void> logout(HttpServletRequest httpRequest) {
+            String accessToken = cookieUtil.getCookieValue(httpRequest, "access_token");
             authService.logout(accessToken);
             return BaseResponse.success();
         }

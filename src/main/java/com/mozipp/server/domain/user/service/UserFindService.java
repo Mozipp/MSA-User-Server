@@ -17,9 +17,14 @@ public class UserFindService {
     private final JwtUtil jwtUtil;
 
     public Long getUserId(String accessToken) {
-        accessToken = accessToken.substring(7);
         Claims claims = jwtUtil.getClaimsFromToken(accessToken);
         String username = claims.getSubject();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_USER));
+        return user.getId();
+    }
+
+    public Long getUserIdByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_USER));
         return user.getId();
