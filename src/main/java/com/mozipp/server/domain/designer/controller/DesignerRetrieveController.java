@@ -35,24 +35,16 @@ public class DesignerRetrieveController {
     }
 
     @PostMapping("/login")
-    public BaseResponse<AuthResponseDto> login(@Valid @RequestBody DesignerLoginDto loginDto, HttpServletResponse response) {
-        try {
+    public BaseResponse<Void> login(@Valid @RequestBody DesignerLoginDto loginDto, HttpServletResponse response) {
             User user = userMatchService.authenticate(loginDto.getUsername(), loginDto.getPassword());
-            AuthResponseDto authResponse = authService.login(loginDto, response);
-            return BaseResponse.success(authResponse);
-        } catch (Exception e) {
-            return BaseResponse.fail(UNAUTHORIZED);
-        }
+            authService.login(loginDto, response);
+            return BaseResponse.success();
     }
 
     @PostMapping("/logout")
     public BaseResponse<Void> logout(@RequestHeader("Authorization") String authorizationHeader) {
-        try {
             String accessToken = authorizationHeader.substring(7); // "Bearer " 제거
             authService.logout(accessToken);
             return BaseResponse.success();
-        } catch (Exception e) {
-            return BaseResponse.fail(UNAUTHORIZED);
-        }
     }
 }

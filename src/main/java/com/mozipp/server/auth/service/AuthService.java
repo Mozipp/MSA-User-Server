@@ -26,7 +26,7 @@ public class AuthService {
     @Value("${auth.service.url}")
     private String authServiceUrl;
 
-    public AuthResponseDto login(DesignerLoginDto loginDto, HttpServletResponse response) {
+    public void login(DesignerLoginDto loginDto, HttpServletResponse response) {
         logger.info("Sending login request to Auth server for username: {}", loginDto.getUsername());
         // WebClient를 사용하여 인증 서버에 로그인 요청 보내기
         Mono<AuthResponseDto> authResponseMono = webClient.post()
@@ -58,7 +58,6 @@ public class AuthService {
         if (authResponse == null) {
             throw new RuntimeException("Auth server login failed");
         }
-        return authResponse;
     }
 
     public void logout(String accessToken) {
