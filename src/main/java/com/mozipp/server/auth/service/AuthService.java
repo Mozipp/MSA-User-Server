@@ -29,8 +29,8 @@ public class AuthService {
     public void login(DesignerLoginDto loginDto, HttpServletResponse response) {
         logger.info("Sending login request to Auth server for username: {}", loginDto.getUsername());
         // WebClient를 사용하여 인증 서버에 로그인 요청 보내기
-        Mono<AuthResponseDto> authResponseMono = webClient.post()
-                .uri(authServiceUrl+"/auth/login")
+        Mono<Void> authResponseMono = webClient.post()
+                .uri(authServiceUrl + "/auth/login")
                 .header(HttpHeaders.CONTENT_TYPE, "application/json")
                 .bodyValue(loginDto)
                 .exchangeToMono(clientResponse -> {
@@ -44,8 +44,8 @@ public class AuthService {
                                 response.addHeader(HttpHeaders.SET_COOKIE, setCookie);
                             }
                         }
-                        // 응답 본문을 AuthResponseDto로 변환
-                        return clientResponse.bodyToMono(AuthResponseDto.class);
+                        // 빈 Mono 반환
+                        return Mono.empty();
                     } else {
                         // 오류 처리
                         return clientResponse.createException()
@@ -53,11 +53,8 @@ public class AuthService {
                     }
                 });
 
-        // 블로킹 호출로 AuthResponseDto 객체 얻기
-        AuthResponseDto authResponse = authResponseMono.block();
-        if (authResponse == null) {
-            throw new RuntimeException("Auth server login failed");
-        }
+        // 블로킹 호출로 인증 서버 응답 처리
+        authResponseMono.block();
     }
 
     public void logout(String accessToken) {
