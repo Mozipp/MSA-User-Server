@@ -28,14 +28,10 @@ public class RedisListenerConfig {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
 
-        // PORTFOLIO_CREATION_REQUEST 채널 구독
-        container.addMessageListener(
-                new MessageListenerAdapter(portfolioCreationListener, "handlePortfolioCreationRequest"),
-                new PatternTopic("PORTFOLIO_CREATION_REQUEST")
-        );
+        MessageListenerAdapter adapter = new MessageListenerAdapter(portfolioCreationListener, "handlePortfolioCreationRequest");
+        container.addMessageListener(adapter, new PatternTopic("PORTFOLIO_CREATION_REQUEST"));
 
-        logger.info("RedisMessageListenerContainer initialized successfully with Listener: {}", portfolioCreationListener);
-
+        logger.info("RedisMessageListenerContainer initialized: {}", container);
         return container;
     }
 }
