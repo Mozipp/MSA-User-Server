@@ -20,4 +20,9 @@ public class Portfolio {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "designer_id")
     private Designer designer;
+
+    public Portfolio(String naverPlaceUrl, Designer designer) {
+        this.naverPlaceUrl = naverPlaceUrl;
+        this.designer = designer;
+    }
 }
