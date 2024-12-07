@@ -17,7 +17,7 @@ public class Portfolio {
 
     private String naverPlaceUrl;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "designer_id")
     private Designer designer;
 
