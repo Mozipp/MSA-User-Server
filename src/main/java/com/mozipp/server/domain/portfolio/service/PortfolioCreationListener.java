@@ -23,7 +23,6 @@ public class PortfolioCreationListener {
         this.objectMapper = objectMapper;
     }
 
-    // 메서드 이름과 시그니처 확인
     public void handlePortfolioCreationRequest(String message) {
         logger.info("Received message: {}", message);
         try {
@@ -35,16 +34,15 @@ public class PortfolioCreationListener {
                 PortfolioRequest portfolioRequest = new PortfolioRequest(event.getDesignerId(), event.getNaverPlaceUrl());
                 PortfolioResponseDto response = portfolioService.createPortfolio(portfolioRequest);
 
-                // 성공 시 Product 서버에게 성공 이벤트 발행
-                PortfolioResultEvent successEvent = new PortfolioResultEvent(event.getProductId());
+                // 성공 시 Product 서버에게 성공 이벤트 발행 (portfolioId 포함)
+                PortfolioResultEvent successEvent = new PortfolioResultEvent(event.getProductId(), response.getPortfolioId());
                 redisEventPublisher.publishPortfolioCreationSuccess(successEvent);
 
-                logger.info("Portfolio created successfully for productId={}", event.getProductId());
+                logger.info("Portfolio created successfully for productId={}, portfolioId={}", event.getProductId(), response.getPortfolioId());
             } catch (Exception e) {
                 // 실패 시 Product 서버에게 실패 이벤트 발행
-                PortfolioResultEvent failEvent = new PortfolioResultEvent(event.getProductId());
+                PortfolioResultEvent failEvent = new PortfolioResultEvent(event.getProductId(), null);
                 redisEventPublisher.publishPortfolioCreationFail(failEvent);
-                portfolioService.deletePortfolioByProductId(event.getProductId());
 
                 logger.error("Failed to create Portfolio for productId={}", event.getProductId(), e);
             }

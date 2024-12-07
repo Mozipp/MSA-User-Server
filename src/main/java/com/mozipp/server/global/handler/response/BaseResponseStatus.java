@@ -41,6 +41,7 @@ public enum BaseResponseStatus {
     NOT_FOUND_DESIGNER(false, 40405, HttpStatus.NOT_FOUND, "해당 Designer를 찾을 수 없음"),
     NOT_FOUND_USER(false, 40406, HttpStatus.NOT_FOUND, "해당 User를 찾을 수 없음"),
     JSON_PROCESSING_ERROR(false, 40407, HttpStatus.NOT_FOUND, "json processing error"),
+    NOT_FOUND_PORTFOLIO(false, 40408, HttpStatus.NOT_FOUND, "portfolio not found"),
 
     /**
      * 409 CONFLICT 중복된 리소스

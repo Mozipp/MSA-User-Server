@@ -31,11 +31,10 @@ public class PortfolioService {
     }
 
     @Transactional
-    public void deletePortfolioByProductId(Long productId) {
-        try {
-            portfolioRepository.deleteByProductId(productId);
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to delete Portfolio", e);
+    public void deletePortfolioById(Long portfolioId) {
+        if (!portfolioRepository.existsById(portfolioId)) {
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_PORTFOLIO);
         }
+        portfolioRepository.deleteById(portfolioId);
     }
 }

@@ -7,4 +7,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PortfolioResultEvent {
     private final Long productId;
+    private final Long portfolioId;
 }
