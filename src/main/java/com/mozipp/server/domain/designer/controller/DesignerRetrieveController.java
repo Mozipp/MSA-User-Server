@@ -3,9 +3,9 @@ package com.mozipp.server.domain.designer.controller;
 import com.mozipp.server.auth.service.AuthService;
 import com.mozipp.server.domain.designer.dto.DesignerLoginDto;
 import com.mozipp.server.domain.designer.dto.DesignerProfileResponse;
+import com.mozipp.server.domain.designer.dto.PetGroomingImageDto;
 import com.mozipp.server.domain.designer.service.DesignerRetrieveService;
 import com.mozipp.server.domain.user.entity.User;
-import com.mozipp.server.domain.user.service.UserFindService;
 import com.mozipp.server.domain.user.service.UserMatchService;
 import com.mozipp.server.global.handler.response.BaseResponse;
 import com.mozipp.server.global.util.CookieUtil;
@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users/designer")
@@ -23,7 +25,6 @@ public class DesignerRetrieveController {
 
     private final UserMatchService userMatchService;
     private final AuthService authService;
-    private final UserFindService userFindService;
     private final DesignerRetrieveService designerRetrieveService;
     private final CookieUtil cookieUtil;
 
@@ -46,5 +47,10 @@ public class DesignerRetrieveController {
             String accessToken = cookieUtil.getCookieValue(httpRequest, "access_token");
             authService.logout(accessToken);
             return BaseResponse.success();
+    }
+
+    @GetMapping("/profile/petGroomingImage")
+    public BaseResponse<List<PetGroomingImageDto>> getPetGroomingImages(@AuthenticationPrincipal Long designerId) {
+        return designerRetrieveService.getPetGroomingImages(designerId);
     }
 }

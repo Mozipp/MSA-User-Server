@@ -5,7 +5,6 @@ import com.mozipp.server.domain.designer.dto.DesignerPetGroomingImageDto;
 import com.mozipp.server.domain.designer.dto.DesignerProfileRequest;
 import com.mozipp.server.domain.designer.dto.DesignerSignUpDto;
 import com.mozipp.server.domain.designer.service.DesignerRegisterService;
-import com.mozipp.server.domain.user.service.UserFindService;
 import com.mozipp.server.global.handler.response.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class DesignerRegisterController {
 
     private final DesignerRegisterService designerRegisterService;
-    private final UserFindService userFindService;
 
     // 디자이너 회원가입
     @PostMapping("/sign-up")
@@ -49,4 +47,5 @@ public class DesignerRegisterController {
         designerRegisterService.registerPetGroomingImage(request, designerId);
         return BaseResponse.success();
     }
+
 }

@@ -55,4 +55,19 @@ public class DesignerConverter {
                 .addressDetail(request.getAddressDetail())
                 .build();
     }
+
+    public static List<PetGroomingImageDto> toPetGroomingImageDtos(List<PetGroomingImage> images) {
+        List<PetGroomingImageDto> petGroomingImageDtos = toPetGroomingImagesDtos(images);
+        return petGroomingImageDtos;
+    }
+
+
+    private static List<PetGroomingImageDto> toPetGroomingImagesDtos(List<PetGroomingImage> petGroomingImages) {
+        return petGroomingImages.stream()
+                .map(image -> PetGroomingImageDto.builder()
+                        .imageUrl(image.getImageUrl())
+                        .build())
+                .collect(Collectors.toList());
+    }
 }
+
