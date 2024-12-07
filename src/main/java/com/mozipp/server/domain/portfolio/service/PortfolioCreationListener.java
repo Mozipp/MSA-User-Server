@@ -26,10 +26,11 @@ public class PortfolioCreationListener {
     public void handlePortfolioCreationRequest(String message) {
         try {
             PortfolioCreationEvent event = objectMapper.readValue(message, PortfolioCreationEvent.class);
-
+            logger.info("Received message: {}", message);
             // Portfolio 생성 시도
             try {
                 PortfolioRequest portfolioRequest = new PortfolioRequest(event.getDesignerId(), event.getNaverPlaceUrl());
+                logger.info("Parsed event: {}", event);
                 PortfolioResponseDto response = portfolioService.createPortfolio(portfolioRequest);
 
                 // 성공 시 Product 서버에게 성공 이벤트 발행
