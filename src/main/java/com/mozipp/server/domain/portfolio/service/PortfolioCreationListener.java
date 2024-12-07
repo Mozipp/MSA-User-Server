@@ -23,14 +23,16 @@ public class PortfolioCreationListener {
         this.objectMapper = objectMapper;
     }
 
+    // 메서드 이름과 시그니처 확인
     public void handlePortfolioCreationRequest(String message) {
+        logger.info("Received message: {}", message);
         try {
             PortfolioCreationEvent event = objectMapper.readValue(message, PortfolioCreationEvent.class);
-            logger.info("Received message: {}", message);
+            logger.info("Parsed event: {}", event);
+
             // Portfolio 생성 시도
             try {
                 PortfolioRequest portfolioRequest = new PortfolioRequest(event.getDesignerId(), event.getNaverPlaceUrl());
-                logger.info("Parsed event: {}", event);
                 PortfolioResponseDto response = portfolioService.createPortfolio(portfolioRequest);
 
                 // 성공 시 Product 서버에게 성공 이벤트 발행

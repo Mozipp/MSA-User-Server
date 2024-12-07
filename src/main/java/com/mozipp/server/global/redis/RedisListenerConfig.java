@@ -23,17 +23,31 @@ public class RedisListenerConfig {
         this.portfolioCreationListener = portfolioCreationListener;
     }
 
+    /**
+     * MessageListenerAdapter Bean 등록
+     * - Listener 메서드와 메서드 이름을 명시적으로 매핑
+     */
     @Bean
-    public RedisMessageListenerContainer redisMessageListenerContainer(LettuceConnectionFactory connectionFactory) {
+    public MessageListenerAdapter messageListenerAdapter() {
+        MessageListenerAdapter adapter = new MessageListenerAdapter(portfolioCreationListener, "handlePortfolioCreationRequest");
+        return adapter;
+    }
+
+    /**
+     * RedisMessageListenerContainer Bean 등록
+     * - MessageListenerAdapter와 Redis Connection을 연결
+     */
+    @Bean
+    public RedisMessageListenerContainer redisMessageListenerContainer(
+            LettuceConnectionFactory connectionFactory,
+            MessageListenerAdapter messageListenerAdapter) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
 
-        MessageListenerAdapter adapter = new MessageListenerAdapter(portfolioCreationListener);
-        adapter.setDefaultListenerMethod("handlePortfolioCreationRequest"); // 명시적으로 메서드 매핑 설정
+        // MessageListenerAdapter와 채널 연결
+        container.addMessageListener(messageListenerAdapter, new PatternTopic("PORTFOLIO_CREATION_REQUEST"));
 
-        container.addMessageListener(adapter, new PatternTopic("PORTFOLIO_CREATION_REQUEST"));
-
-        logger.info("RedisMessageListenerContainer initialized: {}", container);
+        logger.info("RedisMessageListenerContainer initialized with adapter: {}", messageListenerAdapter);
         return container;
     }
 }
