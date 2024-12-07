@@ -51,6 +51,7 @@ public class DesignerRetrieveController {
 
     @GetMapping("/profile/petGroomingImage")
     public BaseResponse<List<PetGroomingImageDto>> getPetGroomingImages(@AuthenticationPrincipal Long designerId) {
-        return designerRetrieveService.getPetGroomingImages(designerId);
+        List<PetGroomingImageDto> petGroomingImages = designerRetrieveService.getPetGroomingImages(designerId);
+        return BaseResponse.success(petGroomingImages);
     }
 }
