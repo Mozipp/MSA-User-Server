@@ -28,7 +28,9 @@ public class RedisListenerConfig {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
 
-        MessageListenerAdapter adapter = new MessageListenerAdapter(portfolioCreationListener, "handlePortfolioCreationRequest");
+        MessageListenerAdapter adapter = new MessageListenerAdapter(portfolioCreationListener);
+        adapter.setDefaultListenerMethod("handlePortfolioCreationRequest"); // 명시적으로 메서드 매핑 설정
+
         container.addMessageListener(adapter, new PatternTopic("PORTFOLIO_CREATION_REQUEST"));
 
         logger.info("RedisMessageListenerContainer initialized: {}", container);
