@@ -5,10 +5,13 @@ import com.mozipp.server.domain.designer.dto.DesignerLoginDto;
 import com.mozipp.server.domain.model.dto.ModelProfileResponse;
 import com.mozipp.server.domain.model.dto.PetProfileResponse;
 import com.mozipp.server.domain.model.service.ModelRetrieveService;
+import com.mozipp.server.domain.user.entity.Role;
 import com.mozipp.server.domain.user.entity.User;
 import com.mozipp.server.domain.user.service.UserFindService;
 import com.mozipp.server.domain.user.service.UserMatchService;
+import com.mozipp.server.global.handler.BaseException;
 import com.mozipp.server.global.handler.response.BaseResponse;
+import com.mozipp.server.global.handler.response.BaseResponseStatus;
 import com.mozipp.server.global.util.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -45,6 +48,9 @@ public class ModelRetrieveController {
     @PostMapping("/login")
     public BaseResponse<Void> login(@Valid @RequestBody DesignerLoginDto loginDto, HttpServletResponse response) {
             User user = userMatchService.authenticate(loginDto.getUsername(), loginDto.getPassword());
+            if(user.getRole() == Role.DESIGNER){
+                throw new BaseException(BaseResponseStatus.UNAUTHORIZED);
+            }
             authService.login(loginDto, response);
             return BaseResponse.success();
     }
