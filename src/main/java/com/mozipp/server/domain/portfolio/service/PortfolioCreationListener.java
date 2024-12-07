@@ -29,18 +29,17 @@ public class PortfolioCreationListener {
             PortfolioCreationEvent event = objectMapper.readValue(message, PortfolioCreationEvent.class);
             logger.info("Parsed event: {}", event);
 
-            // Portfolio 생성 시도
             try {
                 PortfolioRequest portfolioRequest = new PortfolioRequest(event.getDesignerId(), event.getNaverPlaceUrl());
-                PortfolioResponseDto response = portfolioService.createPortfolio(portfolioRequest);
+                PortfolioResponseDto response = portfolioService.createOrUpdatePortfolio(portfolioRequest);
 
-                // 성공 시 Product 서버에게 성공 이벤트 발행 (portfolioId 포함)
+                // 성공 이벤트 발행
                 PortfolioResultEvent successEvent = new PortfolioResultEvent(event.getProductId(), response.getPortfolioId());
                 redisEventPublisher.publishPortfolioCreationSuccess(successEvent);
 
-                logger.info("Portfolio created successfully for productId={}, portfolioId={}", event.getProductId(), response.getPortfolioId());
+                logger.info("Portfolio created/updated successfully for productId={}, portfolioId={}", event.getProductId(), response.getPortfolioId());
             } catch (Exception e) {
-                // 실패 시 Product 서버에게 실패 이벤트 발행
+                // 실패 이벤트 발행
                 PortfolioResultEvent failEvent = new PortfolioResultEvent(event.getProductId(), null);
                 redisEventPublisher.publishPortfolioCreationFail(failEvent);
 
@@ -48,7 +47,6 @@ public class PortfolioCreationListener {
             }
 
         } catch (Exception e) {
-            // 로깅 처리
             logger.error("Failed to parse PortfolioCreationEvent", e);
         }
     }

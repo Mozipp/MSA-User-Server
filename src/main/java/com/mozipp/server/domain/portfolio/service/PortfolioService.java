@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class PortfolioService {
@@ -20,21 +22,24 @@ public class PortfolioService {
     private final DesignerRepository designerRepository;
 
     @Transactional
-    public PortfolioResponseDto createPortfolio(PortfolioRequest request) {
+    public PortfolioResponseDto createOrUpdatePortfolio(PortfolioRequest request) {
         Designer designer = designerRepository.findById(request.getDesignerId())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_DESIGNER));
 
-        Portfolio portfolio = new Portfolio(request.getNaverPlaceUrl(), designer);
+        Optional<Portfolio> existingPortfolioOpt = portfolioRepository.findByDesigner(designer);
+        Portfolio portfolio;
+
+        if (existingPortfolioOpt.isPresent()) {
+            // 기존 Portfolio가 있을 경우, 업데이트
+            portfolio = existingPortfolioOpt.get();
+            portfolio.setNaverPlaceUrl(request.getNaverPlaceUrl());
+        } else {
+            // 새로운 Portfolio 생성
+            portfolio = new Portfolio(request.getNaverPlaceUrl(), designer);
+        }
+
         portfolioRepository.save(portfolio);
 
         return new PortfolioResponseDto(portfolio.getId(), portfolio.getNaverPlaceUrl(), portfolio.getDesigner().getId());
-    }
-
-    @Transactional
-    public void deletePortfolioById(Long portfolioId) {
-        if (!portfolioRepository.existsById(portfolioId)) {
-            throw new BaseException(BaseResponseStatus.NOT_FOUND_PORTFOLIO);
-        }
-        portfolioRepository.deleteById(portfolioId);
     }
 }
