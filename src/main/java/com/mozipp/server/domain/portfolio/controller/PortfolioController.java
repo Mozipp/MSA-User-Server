@@ -19,7 +19,7 @@ public class PortfolioController {
 
     @PostMapping
     public ResponseEntity<PortfolioResponseDto> createPortfolio(@RequestBody PortfolioRequest request) {
-        PortfolioResponseDto response = portfolioService.createPortfolio(request);
+        PortfolioResponseDto response = portfolioService.createOrUpdatePortfolio(request);
         return ResponseEntity.ok(response);
     }
 }
