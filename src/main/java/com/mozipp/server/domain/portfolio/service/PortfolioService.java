@@ -29,4 +29,13 @@ public class PortfolioService {
 
         return new PortfolioResponseDto(portfolio.getId(), portfolio.getNaverPlaceUrl(), portfolio.getDesigner().getId());
     }
+
+    @Transactional
+    public void deletePortfolioByProductId(Long productId) {
+        try {
+            portfolioRepository.deleteByProductId(productId);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to delete Portfolio", e);
+        }
+    }
 }

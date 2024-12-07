@@ -44,6 +44,7 @@ public class PortfolioCreationListener {
                 // 실패 시 Product 서버에게 실패 이벤트 발행
                 PortfolioResultEvent failEvent = new PortfolioResultEvent(event.getProductId());
                 redisEventPublisher.publishPortfolioCreationFail(failEvent);
+                portfolioService.deletePortfolioByProductId(event.getProductId());
 
                 logger.error("Failed to create Portfolio for productId={}", event.getProductId(), e);
             }
