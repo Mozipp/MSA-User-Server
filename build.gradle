@@ -54,6 +54,10 @@ dependencies {
 	// Spring Data Redis (블로킹)
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+	// Micrometer Tracing
+	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+	implementation 'io.micrometer:micrometer-tracing'
+
 }
 
 tasks.named('test') {
